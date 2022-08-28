@@ -1,10 +1,13 @@
-import { genSaltSync, hashSync } from 'bcryptjs';
+import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import config from '../config';
 import db from '../database';
 import IUser from '../types/user';
 
 export const hashPassowrd = (password: string | number) => {
-	const hash = hashSync(`${password}${config.PEPPER}`, config.SALT);
+	const hash = hashSync(
+		`${password}${config.PEPPER}`,
+		parseInt(config.SALT as string, 10),
+	);
 	return hash;
 };
 const userModel = () => {
@@ -19,11 +22,22 @@ const userModel = () => {
 			throw error;
 		}
 	};
-	const getUser = async (id: number): Promise<IUser> => {
+	const getUserById = async (id: number): Promise<IUser> => {
 		try {
 			const client = await db.connect();
 			const sql = 'SELECT * FROM users WHERE id =($1);';
 			const res = await client.query(sql, [id]);
+			client.release();
+			return res.rows[0];
+		} catch (error) {
+			throw error;
+		}
+	};
+	const getUserByEmail = async (email: string): Promise<IUser> => {
+		try {
+			const client = await db.connect();
+			const sql = `SELECT * FROM users WHERE email =($1);`;
+			const res = await client.query(sql, [email]);
 			client.release();
 			return res.rows[0];
 		} catch (error) {
@@ -82,7 +96,32 @@ const userModel = () => {
 		}
 	};
 
-	return { getAllUsers, getUser, addUser, updateUser, deleteUser };
+	const authenticateUser = async (
+		email: string,
+		password: string,
+	): Promise<boolean> => {
+		try {
+			const user = await getUserByEmail(email);
+			const isMatch = compareSync(
+				`${password}${config.PEPPER}`,
+				user.password as string,
+			);
+
+			return isMatch;
+		} catch (error) {
+			throw error;
+		}
+	};
+
+	return {
+		getAllUsers,
+		getUserById,
+		getUserByEmail,
+		addUser,
+		updateUser,
+		deleteUser,
+		authenticateUser,
+	};
 };
 
 export default userModel;
