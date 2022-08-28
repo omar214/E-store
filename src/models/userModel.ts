@@ -3,12 +3,12 @@ import config from '../config';
 import db from '../database';
 import IUser from '../types/user';
 
-const hashPassowrd = (password: string | number) => {
+export const hashPassowrd = (password: string | number) => {
 	const hash = hashSync(`${password}${config.PEPPER}`, config.SALT);
 	return hash;
 };
 const userModel = () => {
-	const getAll = async (): Promise<IUser[]> => {
+	const getAllUsers = async (): Promise<IUser[]> => {
 		try {
 			const client = await db.connect();
 			const sql = 'SELECT * FROM users;';
@@ -33,10 +33,10 @@ const userModel = () => {
 	const addUser = async (user: IUser): Promise<IUser> => {
 		try {
 			const client = await db.connect();
-			const sql = `INSERT INTO users ( email,first_name, last_name, password) values (
-        ($1), ($2),($3), ($4) 
-        RETURNING id,email,first_name,last_name
-      )`;
+			const sql = `INSERT INTO users ( email,first_name, last_name, password) 
+				values ( ($1), ($2),($3), ($4) )
+        RETURNING id,email,first_name,last_name;
+			`;
 
 			const res = await client.query(sql, [
 				user.email,
@@ -82,7 +82,7 @@ const userModel = () => {
 		}
 	};
 
-	return { getAll, getUser, addUser, updateUser, deleteUser };
+	return { getAllUsers, getUser, addUser, updateUser, deleteUser };
 };
 
 export default userModel;
