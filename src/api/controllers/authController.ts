@@ -1,10 +1,9 @@
-import userModel, { hashPassowrd } from '../../models/userModel';
+import userModel from '../../models/userModel';
 import jwt from 'jsonwebtoken';
 import createError from '../../utils/createError';
 import { NextFunction, Request, Response } from 'express';
 import { compareSync } from 'bcryptjs';
 import config from '../../config';
-const { getUserByEmail, addUser, authenticateUser } = userModel();
 
 const genToken = (id: number) => {
 	return jwt.sign({ id }, config.JWT_PASSWORD as string, {
@@ -23,10 +22,10 @@ const singup = async (req: Request, res: Response, next: NextFunction) => {
 				),
 			);
 
-		let user = await getUserByEmail(email);
+		let user = await userModel.getUserByEmail(email);
 		if (user) return next(createError(409, 'User already exists'));
 
-		const savedUser = await addUser({
+		const savedUser = await userModel.addUser({
 			email,
 			first_name,
 			last_name,
@@ -49,11 +48,11 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 		if (!email || !password)
 			return next(createError(400, 'Email , and password are required'));
 
-		const user = await getUserByEmail(email);
+		const user = await userModel.getUserByEmail(email);
 		if (!user) return next(createError(404, 'User not found'));
 		console.log(user);
 
-		const isMatch = authenticateUser(email, password);
+		const isMatch = userModel.authenticateUser(email, password);
 
 		if (!isMatch) return next(createError(401, 'Invalid password'));
 
@@ -69,4 +68,4 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 	}
 };
 
-export { singup, login };
+export default { singup, login };
