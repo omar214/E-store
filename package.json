@@ -7,13 +7,15 @@
 		"build": "tsc",
 		"start": "node build/server.js",
 		"dev": "nodemon src/server.ts",
-		"migrate": "db-migrate up",
+		"migrate:run": "db-migrate up:all",
+		"migrate:reset": "db-migrate reset",
 		"test": "jasmine-ts"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
+		"@types/bcryptjs": "^2.4.2",
 		"@types/express": "^4.17.13",
 		"@types/jasmine": "^4.3.0",
 		"@types/morgan": "^1.9.3",
