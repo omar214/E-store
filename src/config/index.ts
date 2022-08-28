@@ -10,10 +10,11 @@ const {
 	PG_DATABASE_TEST,
 	PG_PASSWORD,
 	PG_USER,
+	SALT,
+	PEPPER,
 } = process.env;
 
-const DATABASE =
-	NODE_ENV === 'dev' ? PG_DATABASE_DEV : PG_DATABASE_TEST;
+const DATABASE = NODE_ENV === 'dev' ? PG_DATABASE_DEV : PG_DATABASE_TEST;
 
 const config = {
 	PORT: PORT || 5000,
@@ -23,5 +24,7 @@ const config = {
 	PG_DATABASE: DATABASE,
 	PG_PASSWORD,
 	PG_USER,
+	SALT,
+	PEPPER,
 };
 export default config;
