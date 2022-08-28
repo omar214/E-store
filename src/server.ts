@@ -11,7 +11,7 @@ if (config.NODE_ENV === 'dev') {
 	app.use(morgan('dev'));
 }
 app.use(express.urlencoded({ extended: true })); // send nested objects
-app.use(express.static('public')); // serve static files
+app.use(express.json()); // serve static files
 
 app.listen(config.PORT, () => {
 	console.log('Server listening on Port', config.PORT);

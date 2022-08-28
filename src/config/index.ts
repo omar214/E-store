@@ -12,6 +12,7 @@ const {
 	PG_USER,
 	SALT,
 	PEPPER,
+	JWT_PASSWORD,
 } = process.env;
 
 const DATABASE = NODE_ENV === 'dev' ? PG_DATABASE_DEV : PG_DATABASE_TEST;
@@ -26,5 +27,6 @@ const config = {
 	PG_USER,
 	SALT,
 	PEPPER,
+	JWT_PASSWORD,
 };
 export default config;
