@@ -1,4 +1,3 @@
-import config from '../config';
 import db from '../database';
 import IProduct from '../types/product';
 
