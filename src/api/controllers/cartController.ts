@@ -2,7 +2,6 @@ import cartModel from '../../models/cartModel';
 
 import createError from '../../utils/createError';
 import { NextFunction, Request, Response } from 'express';
-import config from '../../config';
 import orderModel from '../../models/orderModel';
 
 const getCartProducts = async (
