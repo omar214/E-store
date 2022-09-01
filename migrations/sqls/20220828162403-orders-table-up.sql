@@ -1,5 +1,4 @@
 /* Replace with your SQL commands */
-CREATE TYPE STATUS ENUM 
 CREATE TABLE orders(
   id SERIAL PRIMARY KEY , 
   userId INTEGER NOT NULL, 
