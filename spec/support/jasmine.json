@@ -1,20 +1,15 @@
 {
-  "spec_dir": "__test__",
-  "spec_files": [
-    "**/*[sS]pec.?(m)js"
-  ],
-  "helpers": [
-    "helpers/**/*.js"
-  ],
-  "reporters": [
-    {
-      "name": "jasmine-spec-reporter#SpecReporter",
-      "options": {
-        "displayStacktrace": "all"
-      }
-    }
-  ],
-  "stopSpecOnExpectationFailure": false,
-  "random": false
+	"spec_dir": "build",
+	"spec_files": ["**/*[sS]pec.?(m)js"],
+	"helpers": ["helpers/**/*.js"],
+	"reporters": [
+		{
+			"name": "jasmine-spec-reporter#SpecReporter",
+			"options": {
+				"displayStacktrace": "all"
+			}
+		}
+	],
+	"stopSpecOnExpectationFailure": false,
+	"random": false
 }
-

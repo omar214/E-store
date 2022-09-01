@@ -1,5 +1,5 @@
 {
-	"name": "new-folder",
+	"name": "e-store",
 	"version": "1.0.0",
 	"description": "",
 	"main": "server.ts",
@@ -9,7 +9,7 @@
 		"dev": "nodemon src/server.ts",
 		"migrate:run": "db-migrate up:all",
 		"migrate:reset": "db-migrate reset",
-		"test": "jasmine-ts"
+		"test": "set NODE_ENV=test &&  db-migrate reset --env test && db-migrate --env test up:all && npm run build   && jasmine "
 	},
 	"keywords": [],
 	"author": "",
