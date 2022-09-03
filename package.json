@@ -9,7 +9,7 @@
 		"dev": "nodemon src/server.ts",
 		"migrate:run": "db-migrate up:all",
 		"migrate:reset": "db-migrate reset",
-		"test": "set NODE_ENV=test &&  db-migrate reset --env test && db-migrate --env test up:all && npm run build   && jasmine "
+		"test": "set ENV=test &&  db-migrate reset --env test && db-migrate  up:all --env test && npm run build   && npx jasmine "
 	},
 	"keywords": [],
 	"author": "",
