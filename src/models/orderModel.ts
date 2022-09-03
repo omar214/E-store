@@ -13,40 +13,28 @@ const getAllOrders = async (): Promise<IOrder[]> => {
 	}
 };
 
-const getUserOrders = async (userId: number): Promise<userOrder> => {
+const getUserOrders = async (userId: number): Promise<IOrder[]> => {
 	try {
 		const client = await db.connect();
-		const sql = `SELECT orders.id AS OrderId,
-      status,
-      ARRAY_AGG(quantity) AS quantity,
-      ARRAY_AGG(products.name) AS productname
+		const sql = `SELECT *
 			FROM orders
-			JOIN orders_products ON orders_products.orderid = orders.id
-			JOIN products ON orders_products.productid = products.id
 			WHERE orders.userid=$1
-			GROUP BY orders.id;
 		`;
 		const res = await client.query(sql, [userId]);
 		client.release();
 
-		return res.rows[0];
+		return res.rows;
 	} catch (error) {
 		throw error;
 	}
 };
 
-const getUserCompletedOrders = async (userId: number): Promise<userOrder[]> => {
+const getUserCompletedOrders = async (userId: number): Promise<IOrder[]> => {
 	try {
 		const client = await db.connect();
-		const sql = `SELECT orders.id AS OrderId,
-      status,
-      ARRAY_AGG(quantity) AS quantity,
-      ARRAY_AGG(products.name) AS productname
+		const sql = `SELECT *
 			FROM orders
-			JOIN orders_products ON orders_products.orderid = orders.id
-			JOIN products ON orders_products.productid = products.id
-			WHERE orders.userid=$1 AND status ='complete'
-			GROUP BY orders.id;
+			WHERE orders.userid=$1 AND status = 'complete'
 		`;
 		const res = await client.query(sql, [userId]);
 		client.release();
@@ -73,7 +61,7 @@ const addOrder = async (ord: IOrder): Promise<IOrder> => {
 		const client = await db.connect();
 		const sql = `INSERT INTO orders  (userId, status) values (
         ($1), ($2)  )
-        RETURNING id;
+        RETURNING  id , status , userid as userId;
       `;
 
 		const res = await client.query(sql, [ord.userId, ord.status || 'open']);
@@ -100,10 +88,13 @@ const updateOder = async (ord: IOrder): Promise<IOrder> => {
 const deleteOrder = async (id: number): Promise<void> => {
 	try {
 		const client = await db.connect();
-		const sql = `DELETE from orders WHERE id =($1)`;
-		const res = await client.query(sql, [id]);
+
+		let sql = `DELETE from orders_products WHERE orderid =($1)`;
+		let res = await client.query(sql, [id]);
+
+		sql = `DELETE from orders WHERE id =($1)`;
+		res = await client.query(sql, [id]);
 		client.release();
-		console.log('user deleted ');
 	} catch (error) {
 		throw error;
 	}
