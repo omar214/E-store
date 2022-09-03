@@ -14,18 +14,8 @@ const getUserOrders = async (
 
 		const userOrders = await OrderModel.getUserOrders(parseInt(userId));
 
-		let products: { quantity: number; productName: string }[] = [];
-		userOrders?.quantity?.map((ele, idx) => {
-			products.push({
-				quantity: ele,
-				productName: userOrders?.productname?.[idx] as string,
-			});
-		});
-
 		res.status(200).json({
-			orderId: userOrders.orderid,
-			status: userOrders.status,
-			products,
+			orders: userOrders,
 		});
 	} catch (error) {
 		next(error);
@@ -44,25 +34,25 @@ const getCompletedOrders = async (
 
 		const userOrders = await OrderModel.getUserCompletedOrders(userId);
 
-		let products: { quantity: number; productName: string }[] = [];
-		let orders: {
-			orderId: number;
-			status: string;
-			products: typeof products;
-		}[] = [];
-		userOrders.map((ord) => {
-			ord?.quantity?.map((ele, idx) => {
-				products.push({
-					quantity: ele,
-					productName: ord?.productname?.[idx] as string,
-				});
-			});
-			orders.push({ orderId: ord.orderid, status: ord.status, products });
-			products = [];
-		});
+		// let products: { quantity: number; productName: string }[] = [];
+		// let orders: {
+		// 	orderId: number;
+		// 	status: string;
+		// 	products: typeof products;
+		// }[] = [];
+		// userOrders.map((ord) => {
+		// 	ord?.quantity?.map((ele, idx) => {
+		// 		products.push({
+		// 			quantity: ele,
+		// 			productName: ord?.productname?.[idx] as string,
+		// 		});
+		// 	});
+		// 	orders.push({ orderId: ord.orderid, status: ord.status, products });
+		// 	products = [];
+		// });
 
 		res.status(200).json({
-			orders,
+			orders: userOrders,
 		});
 	} catch (error) {
 		next(error);
