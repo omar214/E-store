@@ -50,7 +50,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
 		const user = await userModel.getUserByEmail(email);
 		if (!user) return next(createError(404, 'User not found'));
-		console.log(user);
+		// console.log(user);
 
 		const isMatch = userModel.authenticateUser(email, password);
 
@@ -58,12 +58,12 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
 		const token = genToken(user.id as number);
 		res.status(200).json({
-			message: 'Login successful',
+			msg: 'Login successful',
 			token: token,
 			user,
 		});
 	} catch (error) {
-		console.log(error);
+		// console.log(error);
 		next(error);
 	}
 };
