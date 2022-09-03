@@ -29,13 +29,13 @@ it's the second project for **udacity advanced full-stack nano-degree**
 1. **_Clone the repository_**
 
 ```bash
-git clone https://github.com/omar214/e-store.git
+git clone https://github.com/omar214/E-store.git
 ```
 
 2. **_Go to the directory of the repository_**
 
 ```bash
-cd e-store
+cd E-store
 ```
 
 3. **install dependencies**
