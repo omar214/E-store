@@ -18,8 +18,7 @@ const updateCartProduct = async (cart: ICart): Promise<ICart> => {
 		const client = await db.connect();
 		const sql = `UPDATE cart SET quantity=$3 
       WHERE cart_owner = $1 
-      AND   product_id = $2
-      RETURNING *;
+      AND   product_id = $2;
 		`;
 		const res = await client.query(sql, [
 			cart.cart_owner,
@@ -68,7 +67,7 @@ const checkout = async (cart_owner: number): Promise<void> => {
 		const sql = `DELETE from cart WHERE cart_owner =($1)`;
 		const res = await client.query(sql, [cart_owner]);
 		client.release();
-		console.log('cart is cleared after checkout');
+		// console.log('cart is cleared after checkout');
 	} catch (error) {
 		throw error;
 	}
