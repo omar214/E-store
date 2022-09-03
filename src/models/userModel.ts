@@ -89,7 +89,7 @@ const deleteUser = async (id: number): Promise<void> => {
 		const sql = `DELETE from users WHERE id =($1)`;
 		const res = await client.query(sql, [id]);
 		client.release();
-		console.log('user deleted ');
+		// console.log('user deleted ');
 	} catch (error) {
 		throw error;
 	}
@@ -101,6 +101,8 @@ const authenticateUser = async (
 ): Promise<boolean> => {
 	try {
 		const user = await getUserByEmail(email);
+		// console.log(user);
+
 		const isMatch = compareSync(
 			`${password}${config.PEPPER}`,
 			user.password as string,
@@ -109,6 +111,7 @@ const authenticateUser = async (
 		return isMatch;
 	} catch (error) {
 		throw error;
+		return false;
 	}
 };
 
