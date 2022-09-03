@@ -61,6 +61,7 @@ const updateProduct = async (p: IProduct): Promise<IProduct> => {
 		return res.rows[0];
 	} catch (error) {
 		throw error;
+		console.log('inside update error', error);
 	}
 };
 const deleteProduct = async (id: number): Promise<void> => {
@@ -69,7 +70,6 @@ const deleteProduct = async (id: number): Promise<void> => {
 		const sql = `DELETE from products WHERE id =($1)`;
 		const res = await client.query(sql, [id]);
 		client.release();
-		console.log('user deleted ');
 	} catch (error) {
 		throw error;
 	}

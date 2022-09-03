@@ -14,7 +14,6 @@ const getCartProducts = async (
 			decoded: { id: userId },
 		} = req.body;
 		const cartProducts = await cartModel.getCartProducts(userId);
-		// TODO serialize products
 
 		res.status(200).json({ cartProducts });
 	} catch (error) {
@@ -41,7 +40,6 @@ const updateProduct = async (
 
 		res.status(200).json({
 			msg: 'product updated',
-			product,
 		});
 	} catch (error) {
 		next(error);
@@ -86,7 +84,7 @@ const deleteProduct = async (
 		});
 
 		res.status(200).json({
-			msg: 'deleted from cart to cart',
+			msg: 'product deleted from  to cart',
 		});
 	} catch (error) {
 		next(error);
@@ -112,7 +110,7 @@ const checkout = async (req: Request, res: Response, next: NextFunction) => {
 			msg: 'Check Out Done',
 		});
 	} catch (error) {
-		console.log(error);
+		// console.log(error);
 		next(error);
 	}
 };
