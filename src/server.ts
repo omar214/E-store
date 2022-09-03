@@ -7,7 +7,7 @@ import db from './database';
 
 const app = express();
 
-if (config.NODE_ENV === 'dev') {
+if (config.ENV === 'dev') {
 	app.use(morgan('dev'));
 }
 app.use(express.urlencoded({ extended: true })); // send nested objects

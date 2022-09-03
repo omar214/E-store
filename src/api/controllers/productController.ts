@@ -8,7 +8,6 @@ const getAllProducts = async (
 	next: NextFunction,
 ) => {
 	try {
-		console.log('asdasd');
 
 		const products = await productModel.getAllProducts();
 		res.status(200).json({ products });
@@ -36,7 +35,7 @@ const addProduct = async (req: Request, res: Response, next: NextFunction) => {
 		const { name, price } = req.body;
 		if (!name || !price)
 			return next(
-				createError(400, 'missing parameter ; name, price are required'),
+				createError(400, 'missing parameter price, name, price are required'),
 			);
 
 		let product = await productModel.getProductByName(name);
